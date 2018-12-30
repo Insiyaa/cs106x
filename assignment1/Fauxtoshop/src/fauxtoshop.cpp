@@ -30,7 +30,7 @@ bool isGreen(const Grid<int> stk_grid, int row, int col, int tol);
 void GreenScreen(GBufferedImage& img, const Grid<int>& img_grid);
 void Compare(GBufferedImage& img);
 void Rotate(GBufferedImage& img, const Grid<int>& img_grid);
-void GaussianBlur(GBufferedImage& img, const Grid<int>& img_grid);
+void GaussianBlur(GBufferedImage& img);
 
 /*
  * This main simply declares a GWindow and a GBufferedImage for use
@@ -102,7 +102,7 @@ void doFauxtoshop(GWindow &gw, GBufferedImage &img) {
                 Rotate (img, image_grid);
                 break;
             case 6:
-                GaussianBlur(img, image_grid);
+                GaussianBlur(img);
                 break;
             default:
                 cout << "Enter valid value." << endl;
@@ -315,7 +315,7 @@ void Rotate(GBufferedImage& img, const Grid<int>& img_grid) {
 
     img.fromGrid(duplicate);
 }
-void GaussianBlur(GBufferedImage& img, const Grid<int>& img_grid) {
+void GaussianBlur(GBufferedImage& img) {
     // create dup of grid and mutate img reference.
 
     int radius;
@@ -325,10 +325,11 @@ void GaussianBlur(GBufferedImage& img, const Grid<int>& img_grid) {
 
     Vector<double> kernel = gaussKernelForRadius(radius);
 
-    int rows = img_grid.height();
-    int cols = img_grid.width();
-
     Grid<int> grid1 = img.toGrid();
+
+    int rows = grid1.height();
+    int cols = grid1.width();
+
     Grid <int> grid2 (rows, cols);
 
     // Horizontal
